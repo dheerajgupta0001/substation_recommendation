@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Details</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/view_details.css') }}">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+</head>
+<body>
+
+    <div id="outer-container">
+        <div id="header-container">
+            <img src="{{ url_for('static',filename='img/gridindia_logo.png') }}" id="logo" alt="logo">
+        </div>
+        <div id="body-container">
+
+            <div id="data-container">
+        <h2 id="title-recommendation">Recommendation View</h2>
+        <div id="column-container">
+            <span>
+                <h2 id="substation">Company name</h2>
+                <p id="label">Timestamp: <span id="timestamp" class="label-value"></span></p>
+                <p id="label">Voltages: <div id="voltage1" class="label-value"></div><div id="voltage2" class="label-value"></div><div id="voltage3" class="label-value"></div></p>
+                <p id="label">Recommendation: <span id="recommendation" class="label-value"></span></p>
+            </span>
+            <span>
+                <div style="width: 400px; height: 400px;">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                </div>
+            </span>
+        </div>
+    </div>
+
+</div>
+</div>
+
+    <script>
+        
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) {
+                    return pair[1];
+                }
+            }
+            return (false);
+        }
+
+        var voltage = getQueryVariable("voltage").replaceAll("%20", " ").replaceAll("{", "").replaceAll("}", "");
+        var timestamp = getQueryVariable("timestamp").replaceAll("%20", " ");
+        var substation = getQueryVariable("substation").replaceAll("%20", " ");
+        var recommendation = getQueryVariable("recommendation").replaceAll("%20", " ");
+
+        console.log(voltage, timestamp);
+
+        var voltageArray = voltage.split(',');
+        console.log(voltageArray);
+
+        let decodedTimestamp = timestamp.replace("%20", " ");
+
+        // Parse the decoded timestamp to a Date object
+        let initialTime = new Date(decodedTimestamp);
+
+        // Function to format the date object as a string and re-encode it
+        function formatTimestamp(date) {
+            let year = date.getFullYear();
+            let month = String(date.getMonth() + 1).padStart(2, '0');
+            let day = String(date.getDate()).padStart(2, '0');
+            let hours = String(date.getHours()).padStart(2, '0');
+            let minutes = String(date.getMinutes()).padStart(2, '0');
+            let seconds = String(date.getSeconds()).padStart(2, '0');
+            
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Generate the last 15 seconds
+        let timestampArray = [];
+        for (let i = 0; i < voltageArray.length; i++) {
+            let newTime = new Date(initialTime.getTime() - i * 1000);
+            timestampArray.push(formatTimestamp(newTime));
+        }
+
+        // Output the timestamps
+        console.log(timestampArray);
+
+        listLabels = Array.from({length: voltageArray.length}, (_, i) => i)
+
+       
+        const chart = new Chart('myChart', {
+            type: 'line',
+            data: {
+                // labels: 1, 2, 3... voltageArray.length
+                labels: listLabels,
+                datasets: [{
+                    label: 'Voltage',
+                    data: voltageArray,
+                    backgroundColor: 'rgba(255, 99, 132, 0.0)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false,
+                            maxTicksLimit: 0
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        document.getElementById("substation").innerHTML = substation;
+        document.getElementById("timestamp").innerHTML = timestamp;
+        document.getElementById("voltage1").innerHTML = voltage.substring(0, voltage.length/3);
+        document.getElementById("voltage2").innerHTML = voltage.substring(voltage.length/3, 2*voltage.length/3);
+        document.getElementById("voltage3").innerHTML = voltage.substring(2*voltage.length/3, voltage.length);
+        document.getElementById("recommendation").innerHTML = recommendation;
+    </script>
+
+</body>
+</html>
