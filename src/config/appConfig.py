@@ -1,5 +1,5 @@
 import pandas as pd
-
+import json
 
 def getConfig():
     configDf = pd.read_excel(
@@ -12,3 +12,10 @@ def getPnts():
     pntsDf = pntsDf.fillna("")
     pntsDict = pntsDf.to_dict('records')
     return pntsDict
+
+def getJsonConfig(fName="config.json") -> dict:
+    global jsonConfig
+    with open(fName) as f:
+        data = json.load(f)
+        jsonConfig = data
+        return jsonConfig
