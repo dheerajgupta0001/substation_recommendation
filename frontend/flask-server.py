@@ -2,6 +2,10 @@
 # An object of Flask class is our WSGI application.
 from flask import Flask, render_template, request
 import psycopg2
+from config.appConfig import getJsonConfig
+
+dbConfig = getJsonConfig()
+
 
 # Flask constructor takes the name of 
 # current module (__name__) as argument.
@@ -27,13 +31,15 @@ def review():
 
 @app.route('/review', methods = ['POST'])
 def send_review():
-    conn = psycopg2.connect(
-        dbname="TestDB",
-        user="aryanbhat",
-        password="aryanbhat",
-        host="localhost",
-        port="5432"
-    )
+    conn=psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
+                                  user=dbConfig['db_username'], password=dbConfig['db_password'])
+    #conn = psycopg2.connect(
+    #    dbname="TestDB",
+    #    user="aryanbhat",
+    #    password="aryanbhat",
+    #    host="localhost",
+    #    port="5432"
+    #)
 
     # Create a cursor object using the connection
     cur = conn.cursor()

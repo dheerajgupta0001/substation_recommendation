@@ -23,7 +23,7 @@ endTime = dt.datetime.now()
 # endTime = dt.datetime(2024, 5, 20, 12, 0)
 startTime = endTime - dt.timedelta(minutes=15)
 
-time.sleep(2)
+# time.sleep(1)
 for pnt in pntsConfig:
     fetcher = ScadaDataFetcher(appConfig["host"], appConfig["port"])
     resDict = fetcher.fetchEdnaData(
@@ -57,6 +57,7 @@ for pnt in pntsConfig:
         busVolt = ','.join([str(elem) for elem in busVolt])
         isSuccess = insertToDB(time_stamp, subStationName,
                                recommendation, busVolt, isRecommendation)
+        time.sleep(1)
         # insertion to database only one time
 
         if isSuccess:

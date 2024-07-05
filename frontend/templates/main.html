@@ -35,7 +35,9 @@
     <div id="outer-container">
         <div id="header-container">
             <img src="{{ url_for('static',filename='img/gridindia_logo.png') }}" id="logo" alt="logo">
+        
         </div>
+        
         <div id="body-container">
     
             <div id="data-container">
@@ -59,15 +61,15 @@
                         const table = document.createElement('table');
                         table.border = '1';
                         const headerRow = document.createElement('tr');
-                        headerRow.innerHTML = '<th class="table-header">Timestamp</th><th>Substation Name</th><th>Recommendation</th><th></th>';
+                        headerRow.innerHTML = '<th class="table-header">Timestamp</th><th>Substation Name</th><th>Recommendation</th><th>View</th><th>isRecommendation</th>';
                         table.appendChild(headerRow);
-                        var limit = 20;
-                        if (data.length > limit) {
-                            data = data.slice(0, limit);
-                        }
+                        // var limit = 20;
+                        // if (data.length > limit) {
+                        //     data = data.slice(0, limit);
+                        // }
                         data.forEach(person => {
                             const row = document.createElement('tr');
-                            row.innerHTML = `<td>${person[0]}</td><td>${person[1]}</td><td>${person[2]}</td><td><button onclick="viewDetails('${person[0]}', '${person[1]}', '${person[2]}', '${person[3]}')">View Details</button></td>`;
+                            row.innerHTML = `<td>${person[0]}</td><td>${person[1]}</td><td>${person[2]}</td><td><button onclick="viewDetails('${person[0]}', '${person[1]}', '${person[2]}', '${person[3]}')">View Details</button></td><td>${person[5]}</td>`;
                             table.appendChild(row);
                         });
                         container.appendChild(table);

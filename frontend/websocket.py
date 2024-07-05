@@ -2,17 +2,22 @@ import asyncio
 import websockets
 import json
 import psycopg2
+from config.appConfig import getJsonConfig
+
+dbConfig = getJsonConfig()
 
 # Function to fetch data from the PostgreSQL database
 async def fetch_data_from_database():
     # Connect to your PostgreSQL database
-    conn = psycopg2.connect(
-        dbname="TestDB",
-        user="aryanbhat",
-        password="aryanbhat",
-        host="localhost",
-        port="5432"
-    )
+    conn = psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
+                                  user=dbConfig['db_username'], password=dbConfig['db_password'])
+    # conn = psycopg2.connect(
+    #     dbname="Substation_Recommendation",
+    #     user="postgres",
+    #     password="wr",
+    #     host="localhost",
+    #     port="5432"
+    # )
 
     # Create a cursor object using the connection
     cur = conn.cursor()
@@ -26,6 +31,7 @@ async def fetch_data_from_database():
     conn.close()
 
     return data
+
 
 # WebSocket server handler
 async def websocket_server(websocket, path):

@@ -4,7 +4,7 @@ def voltageBandRange(voltLvl: int):
         underVoltage = 380
 
     if voltLvl == 765:
-        overVoltage = 780
+        overVoltage = 800
         underVoltage = 730
 
     return overVoltage, underVoltage
