@@ -99,7 +99,7 @@ def checkVoltageCondition(busVolts: list[float], pnt: dict, startTime: dt.dateti
             recommendation = "No Reactor Available"
             isRecommendation = False
             return voltSamplInd, recommendation, isRecommendation
-        
+
         # check if any bus reactor was in service at the time of low voltage, if yes then take that out of service
         for lrPntId in busReactorData:
             if busReactorData[lrPntId][voltSamplInd] != 0:
@@ -108,7 +108,7 @@ def checkVoltageCondition(busVolts: list[float], pnt: dict, startTime: dt.dateti
                 print("Line {0} & recommendation, {1}". format(
                     pnt['SubStation'], recommendation))
                 return voltSamplInd, recommendation, isRecommendation
-            
+
         # filter out line data from line dict
         lineReactorData = {}
         for lrPntId in lineReactorDict:
@@ -133,5 +133,5 @@ def checkVoltageCondition(busVolts: list[float], pnt: dict, startTime: dt.dateti
         recommendation = "No recommendation: All Bus Reactors are already out of service"
         isRecommendation = False
         return voltSamplInd, recommendation, isRecommendation
-    
+
     return voltSamplInd, recommendation, isRecommendation

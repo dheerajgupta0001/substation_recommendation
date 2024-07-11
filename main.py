@@ -56,7 +56,7 @@ for substationConf in pntsConfig:
         busVoltsStr = ','.join([str(elem) for elem in busVolts])
         openRecomId = getOpenRecomId(subStationName, recommendation)
         isSuccess = insertRecomToHistory(time_stamp, subStationName,
-                               recommendation, busVoltsStr, isRecommendation, openRecomId, startTime)
+                                         recommendation, busVoltsStr, isRecommendation, openRecomId, startTime)
         # time.sleep(1)
         if isSuccess:
             print("Insertion to database successful")
