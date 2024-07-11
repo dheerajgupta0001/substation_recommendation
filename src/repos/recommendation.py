@@ -29,7 +29,7 @@ def insertRecomToHistory(time_stamp: dt.datetime, substation: str, recommendatio
         else:
             # if an open recommendation exists, then update the latest_alert_time to the recommendation timestamp
             dbCur.execute(
-                'UPDATE "Recommendation_History" set latest_alert_time=%s where id=%s', (time_stamp, openRecomId))
+                'UPDATE "Recommendation_History" set latest_alert_time=%s where id=%s', (iterationStartTime, openRecomId))
         dbConn.commit()
 
         isInsertSuccess = True
