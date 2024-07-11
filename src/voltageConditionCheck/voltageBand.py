@@ -1,4 +1,4 @@
-def voltageBandRange(voltLvl: int):
+def voltageBandRange(voltLvl: int)->tuple[int,int]:
     if voltLvl == 400:
         overVoltage = 420
         underVoltage = 380

@@ -7,7 +7,7 @@ def getConfig():
     configDict = configDf[1].to_dict()
     return configDict
 
-def getPnts():
+def getPnts()->list[dict[str,any]]:
     pntsDf = pd.read_excel('config.xlsx', sheet_name='pnts')
     pntsDf = pntsDf.fillna("")
     pntsDict = pntsDf.to_dict('records')

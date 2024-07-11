@@ -8,6 +8,8 @@ __pycache__
 *.xlsx
 *.DS_Store
 config.json
+*.zip
+*.xlsx
 
 # Distribution / packaging 
 .Python build/ 
