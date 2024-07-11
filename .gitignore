@@ -9,7 +9,7 @@ __pycache__
 *.DS_Store
 config.json
 *.zip
-*.xlsx
+*.docx
 
 # Distribution / packaging 
 .Python build/ 
