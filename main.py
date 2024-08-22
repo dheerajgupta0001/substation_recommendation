@@ -62,7 +62,7 @@ for substationConf in pntsConfig:
             print("Insertion to database successful")
         else:
             print("Insertion to database failed")
-        latestRecommendation.append(subStationName)
+        # latestRecommendation.append(subStationName)
 
 # deleteFromDraftDB(startTime)
 # updateHREndTimeDB(startTime, latestRecommendation)
