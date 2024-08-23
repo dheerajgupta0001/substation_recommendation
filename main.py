@@ -39,7 +39,7 @@ for substationConf in pntsConfig:
 
     # discard points with no values from the dictionary
     for busVoltId in list(allBusesVoltages):
-        if len(allBusesVoltages[busVoltId]):
+        if len(allBusesVoltages[busVoltId]) == 0:
             del allBusesVoltages[busVoltId]
 
     # get reasonable bus voltage values for analysis
