@@ -10,6 +10,7 @@ __pycache__
 config.json
 *.zip
 *.docx
+app_logs/*
 
 # Distribution / packaging 
 .Python build/ 

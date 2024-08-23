@@ -1,19 +1,15 @@
 import datetime as dt
-from typing import List
-import pandas as pd
-from src.services.dummyDataFetcher import DummyDataFetcher
 from src.services.scadaDataFetcher import ScadaDataFetcher
 from src.voltageConditionCheck.voltageBand import voltageBandRange
-from src.config.appConfig import getConfig
+from src.config.appConfig import getJsonConfig
 
 
-appConfig = getConfig()
-fetcher = ScadaDataFetcher(appConfig["host"], appConfig["port"])
-# fetcher = DummyDataFetcher
 reasonabilityLimit = 100
 
 
-def checkVoltageCondition(busVolts: list[float], pnt: dict, startTime: dt.datetime, endTime: dt.datetime):
+def checkVoltageCondition(busVolts: list[float], pnt: dict, startTime: dt.datetime, endTime: dt.datetime) -> tuple[int, str, bool]:
+    appConfig = getJsonConfig()
+    fetcher = ScadaDataFetcher(appConfig.api_host, appConfig.api_port)
     overVoltage, underVoltage = voltageBandRange(pnt['voltLvl'])
     voltSamplInd = -1
     recommendation = ''
