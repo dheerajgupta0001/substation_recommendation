@@ -1,4 +1,5 @@
 def voltageBandRange(voltLvl: int)->tuple[int,int]:
+    # todo get bands data from config
     if voltLvl == 400:
         overVoltage = 410
         underVoltage = 390
