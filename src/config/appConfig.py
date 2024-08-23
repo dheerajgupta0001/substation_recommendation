@@ -3,11 +3,11 @@ import json
 from src.config.jsonConfig import JsonConfig
 
 
-def getConfig():
-    configDf = pd.read_excel(
-        'config.xlsx', sheet_name='config', header=None, index_col=0)
-    configDict = configDf[1].to_dict()
-    return configDict
+# def getConfig():
+#     configDf = pd.read_excel(
+#         'config.xlsx', sheet_name='config', header=None, index_col=0)
+#     configDict = configDf[1].to_dict()
+#     return configDict
 
 
 def getPnts() -> list[dict[str, any]]:

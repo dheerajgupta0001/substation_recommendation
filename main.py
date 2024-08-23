@@ -16,7 +16,7 @@ logger = initFileLogger("app_logger", "app_logs/app_log.log", 50, 10)
 logger.info("started reading config File script")
 appConfig = loadJsonConfig()
 pntsConfig = getPnts()
-fetcher = ScadaDataFetcher(appConfig["api_host"], appConfig["api_port"])
+fetcher = ScadaDataFetcher(appConfig.api_host, appConfig.api_port)
 
 endTime = dt.datetime.now()
 startTime = endTime - dt.timedelta(minutes=5)
@@ -24,6 +24,8 @@ startTime = endTime - dt.timedelta(minutes=5)
 # endTime = dt.datetime(2024, 5, 20, 12, 0)
 
 # time.sleep(1)
+# dataDf = pd.read_excel("solapur_20_05_2024.xlsx")
+# dataDf = pd.read_excel('test.xlsx')
 latestRecommendations = []
 for substationConf in pntsConfig:
     # fetch the buses voltages of the substation
@@ -36,7 +38,7 @@ for substationConf in pntsConfig:
     # remove dummy line data
 
     # discard points with no values from the dictionary
-    for busVoltId in allBusesVoltages:
+    for busVoltId in list(allBusesVoltages):
         if len(allBusesVoltages[busVoltId]):
             del allBusesVoltages[busVoltId]
 

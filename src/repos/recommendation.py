@@ -1,19 +1,16 @@
 import datetime as dt
 import psycopg2
-from src.typeDefs.fetchPnt import FetchPnt
-from src.services.dummyDataFetcher import DummyDataFetcher
 from src.config.appConfig import getJsonConfig
-
-dbConfig = getJsonConfig()
 
 
 def insertRecomToHistory(time_stamp: dt.datetime, substation: str, recommendation: str, busVoltsStr: str, isRecommendation: bool, openRecomId: int, iterationStartTime: dt.datetime):
+    dbConfig = getJsonConfig()
     dbConn = None
     dbCur = None
     isInsertSuccess = False
     try:
-        dbConn = psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
-                                  user=dbConfig['db_username'], password=dbConfig['db_password'])
+        dbConn = psycopg2.connect(host=dbConfig.db_host, dbname=dbConfig.db_name,
+                                  user=dbConfig.db_username, password=dbConfig.db_password)
         dbCur = dbConn.cursor()
         # dbCur.execute(
         #     'DELETE from "Latest_Recommendation" where substation_name= %s', (substation,))
@@ -49,8 +46,9 @@ def insertRecomToHistory(time_stamp: dt.datetime, substation: str, recommendatio
 
 
 def deleteFromDraftDB(startTime: dt.datetime):
-    dbConn = psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
-                              user=dbConfig['db_username'], password=dbConfig['db_password'])
+    dbConfig = getJsonConfig()
+    dbConn = psycopg2.connect(host=dbConfig.db_host, dbname=dbConfig.db_name,
+                              user=dbConfig.db_username, password=dbConfig.db_password)
     dbCur = dbConn.cursor()
     dbCur.execute('DELETE FROM "Draft_Recommendation"')
     dbCur.execute(
@@ -59,11 +57,12 @@ def deleteFromDraftDB(startTime: dt.datetime):
 
 
 def getOpenRecomId(substation: str, recommendation: str) -> int:
+    dbConfig = getJsonConfig()
     dbConn = None
     dbCur = None
     try:
-        dbConn = psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
-                                  user=dbConfig['db_username'], password=dbConfig['db_password'])
+        dbConn = psycopg2.connect(host=dbConfig.db_host, dbname=dbConfig.db_name,
+                                  user=dbConfig.db_username, password=dbConfig.db_password)
         dbCur = dbConn.cursor()
         dbCur.execute('select "Id" from "Recommendation_History" where substation_name = %s and recommendation = %s and revival_time is null',
                       (substation, recommendation))
@@ -88,9 +87,12 @@ def getOpenRecomId(substation: str, recommendation: str) -> int:
 
 
 def updateHREndTimeDB(startTime: dt.datetime, subStationList: list):
+    dbConfig = getJsonConfig()
+    dbConn = None
+    dbCur = None
     try:
-        dbConn = psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
-                                  user=dbConfig['db_username'], password=dbConfig['db_password'])
+        dbConn = psycopg2.connect(host=dbConfig.db_host, dbname=dbConfig.db_name,
+                                  user=dbConfig.db_username, password=dbConfig.db_password)
         dbCur = dbConn.cursor()
         # update revival time of in band substation
         latestRecords = tuple(subStationList)
@@ -104,10 +106,13 @@ def updateHREndTimeDB(startTime: dt.datetime, subStationList: list):
 
 
 def updateLatestRecoms() -> bool:
+    dbConfig = getJsonConfig()
+    dbConn = None
+    dbCur = None
     isSuccess = False
     try:
-        dbConn = psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
-                                  user=dbConfig['db_username'], password=dbConfig['db_password'])
+        dbConn = psycopg2.connect(host=dbConfig.db_host, dbname=dbConfig.db_name,
+                                  user=dbConfig.db_username, password=dbConfig.db_password)
         dbCur = dbConn.cursor()
         # repopulate the open recommendations from history table into the latest recommendations table
         dbCur.execute('DELETE FROM "Latest_Recommendation"')
@@ -127,11 +132,14 @@ def updateLatestRecoms() -> bool:
 
 
 def markRecomsAsClosed(iterationTime: dt.datetime) -> bool:
+    dbConfig = getJsonConfig()
+    dbConn = None
+    dbCur = None
     isSuccess = False
     # Find all the open recommendations where the latest_alert_time < iterationTime and set the revival time as the latest_alert_time
     try:
-        dbConn = psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
-                                  user=dbConfig['db_username'], password=dbConfig['db_password'])
+        dbConn = psycopg2.connect(host=dbConfig.db_host, dbname=dbConfig.db_name,
+                                  user=dbConfig.db_username, password=dbConfig.db_password)
         dbCur = dbConn.cursor()
         dbCur.execute(
             'update "Recommendation_History" set revival_time=latest_alert_time where (revival_time is null) and (latest_alert_time<%s)', (iterationTime,))
