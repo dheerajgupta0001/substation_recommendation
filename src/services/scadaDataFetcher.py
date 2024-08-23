@@ -6,12 +6,13 @@ import json
 from src.utils.time_utils import convertTimeToReqStr
 from src.utils.convertAPIData import convertData
 
+
 class ScadaDataFetcher():
     def __init__(self, host: str, port: int):
         self.host = host
         self.port = port
 
-    def fetchEdnaData(self, pntId, from_time, to_time):
+    def fetchEdnaData(self, pntId: str, from_time: dt.datetime, to_time: dt.datetime) -> dict[str, list[float]]:
         from_time_str = convertTimeToReqStr(from_time)
         to_time_str = convertTimeToReqStr(to_time)
         meas_list = pntId.split(",")

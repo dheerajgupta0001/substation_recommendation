@@ -109,7 +109,7 @@ def updateLatestRecoms() -> bool:
         dbConn = psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
                                   user=dbConfig['db_username'], password=dbConfig['db_password'])
         dbCur = dbConn.cursor()
-        # update revival time of in band substation
+        # repopulate the open recommendations from history table into the latest recommendations table
         dbCur.execute('DELETE FROM "Latest_Recommendation"')
         dbCur.execute('insert into "Latest_Recommendation" (time_stamp, substation_name, recommendation, voltage_str, "isRecommendation") (select time_stamp, substation_name, recommendation, voltage_str, "isRecommendation" from "Recommendation_History" where revival_time is null)')
         dbConn.commit()

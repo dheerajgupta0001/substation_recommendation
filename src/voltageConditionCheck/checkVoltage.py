@@ -13,7 +13,7 @@ fetcher = ScadaDataFetcher(appConfig["host"], appConfig["port"])
 reasonabilityLimit = 100
 
 
-def checkVoltageCondition(busVolts: list[float], pnt: dict, startTime: dt.datetime, endTime: dt.datetime):
+def checkVoltageCondition(busVolts: list[float], pnt: dict, startTime: dt.datetime, endTime: dt.datetime) -> tuple[int, str, bool]:
     overVoltage, underVoltage = voltageBandRange(pnt['voltLvl'])
     voltSamplInd = -1
     recommendation = ''
